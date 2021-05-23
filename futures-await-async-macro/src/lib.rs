@@ -461,7 +461,7 @@ impl Fold for ExpandAsyncFor {
     }
 }
 
-fn first_last(tokens: &ToTokens) -> (Span, Span) {
+fn first_last(tokens: &dyn ToTokens) -> (Span, Span) {
     let mut spans = Tokens::new();
     tokens.to_tokens(&mut spans);
     let good_tokens = proc_macro2::TokenStream::from(spans)
@@ -489,7 +489,7 @@ fn respan(
     new_tokens.into_iter().collect()
 }
 
-fn replace_bang(input: proc_macro2::TokenStream, tokens: &ToTokens) -> proc_macro2::TokenStream {
+fn replace_bang(input: proc_macro2::TokenStream, tokens: &dyn ToTokens) -> proc_macro2::TokenStream {
     let mut new_tokens = Tokens::new();
     for token in input.into_iter() {
         match token {
@@ -504,7 +504,7 @@ fn replace_bang(input: proc_macro2::TokenStream, tokens: &ToTokens) -> proc_macr
 
 fn replace_bangs(
     input: proc_macro2::TokenStream,
-    replacements: &[&ToTokens],
+    replacements: &[&dyn ToTokens],
 ) -> proc_macro2::TokenStream {
     let mut replacements = replacements.iter().cycle();
     let mut new_tokens = Tokens::new();

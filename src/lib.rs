@@ -13,7 +13,7 @@
 //! See the crates's README for more information about usage.
 
 #![feature(generator_trait)]
-#![feature(on_unimplemented)]
+#![feature(rustc_attrs)]
 
 extern crate futures;
 extern crate futures_await_async_macro as async_macro;
@@ -132,7 +132,7 @@ pub mod __rt {
         type Error = <T::Return as IsResult>::Err;
 
         fn poll(&mut self) -> Poll<Self::Item, Self::Error> {
-            match Pin::new(&mut self.0).resume() {
+            match Pin::new(&mut self.0).resume(()) {
                 GeneratorState::Yielded(Async::NotReady) => Ok(Async::NotReady),
                 GeneratorState::Yielded(Async::Ready(mu)) => match mu {},
                 GeneratorState::Complete(e) => e.into_result().map(Async::Ready),
@@ -152,7 +152,7 @@ pub mod __rt {
             if self.done {
                 return Ok(Async::Ready(None));
             }
-            match Pin::new(&mut self.gen).resume() {
+            match Pin::new(&mut self.gen).resume(()) {
                 GeneratorState::Yielded(Async::Ready(e)) => Ok(Async::Ready(Some(e))),
                 GeneratorState::Yielded(Async::NotReady) => Ok(Async::NotReady),
                 GeneratorState::Complete(e) => {

@@ -3,6 +3,7 @@
 //! Very similar to the example at https://tokio.rs
 
 #![feature(generators, proc_macro_hygiene)]
+#![feature(stmt_expr_attributes)]
 
 extern crate futures_await as futures;
 extern crate tokio_core;
