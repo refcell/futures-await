@@ -27,7 +27,7 @@ fn main() {
     println!("listening for connections on {}", tcp.local_addr().unwrap());
 
     let server = async_block! {
-        #[async]
+        #[r#async]
         for (client, _) in tcp.incoming() {
             handle.spawn(handle_client(client).then(|result| {
                 match result {

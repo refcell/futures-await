@@ -407,7 +407,7 @@ impl Fold for ExpandAsyncFor {
             };
             if attrs.len() == 1 {
                 // TODO: more validation here
-                if attrs[0].path.segments.first().unwrap().value().ident == "async" {
+                if attrs[0].path.segments.first().unwrap().value().ident == "r#async" {
                     r#async = true;
                 }
             }
